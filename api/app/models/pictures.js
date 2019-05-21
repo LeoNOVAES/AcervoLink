@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes)=>{
     });
 
     Pictures.associate = (models)=>{
-        Pictures.hasMany(models.User, {foreignKey:'id',otherKey: 'userId', as:'users'});
+        Pictures.hasMany(models.User, {foreignKey:'id', otherKey:'userId', as:'users'});
     }
 
     return Pictures;

@@ -6,6 +6,7 @@ const fs = require('fs');
 
 const user = require("./app/controllers/users");
 const Pictures = require("./app/controllers/pictures");
+const Videos = require("./app/controllers/videos");
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -54,12 +55,8 @@ app.delete("/user/:id", (req,res)=>{
     return res.status(200).json("Usuario excluido com sucesso");
 });
 
-
 //PICTURES
 app.post("/pictures/:id", async (req,res)=>{
-
-
-
     const pictures = await Pictures.insert(req.body,req.files.picture, req.params.id,fs);
     console.log(pictures)
     return res.status(202).json(pictures);
@@ -126,6 +123,53 @@ app.put("/pictures/update/:idUser/:idPicture",async(req,res)=>{
 
 app.delete("/pictures/delete/:idUser/:idPicture",async(req,res)=>{
     const message = await Pictures.delete(req.params.idUser, req.params.idPicture, fs);
+    return res.status(200).json(message);
+});
+
+//videos
+
+app.post("/videos/:id", async (req,res)=>{
+    const video = await Videos.insert(req.files,req.body, req.params.id, fs);
+    return res.status(202).json(video);
+});
+
+app.get("/videos/:id",async (req,res)=>{
+    const videos = await Videos.getAll(req.params.id);
+    return res.status(200).json(videos);
+});
+
+app.get("/videos/:idUser/:idVideos", async (req,res)=>{
+    const video = await Videos.getById(req.params.idPicture, req.params.idUser);
+    return res.status(200).json(video);
+});
+
+app.get("/videos/public/:idUser", async (req,res)=>{
+    const videos = await Videos.getPublicByUser(req.params.idUser);
+    return res.status(200).json(videos);
+});
+
+app.get("/videos/public/:idUser/:idPicture",async(req,res)=>{
+    const videos = await Videos.getPublicOne(req.params.idUser, req.params.idPicture);
+    return res.status(200).json(videos);
+});
+
+app.get("/videos/private/:idUser", async (req,res)=>{
+    const videos = await Videos.getPrivateByUser(req.params.idUser);
+    return res.status(200).json(videos);
+});
+
+app.get("/videos/private/:idUser/:idPicture",async (req,res)=>{
+    const video = await Videos.getPrivateOne(req.params.idUser, req.params.idPicture);
+    return res.status(200).json(video);
+});
+
+app.put("/pictures/update/:idUser/:idPicture",async(req,res)=>{
+    const message = await Videos.update(req.params.idUser, req.params.idPicture, req.body);
+    return res.status(200).json(message);
+});
+
+app.delete("/pictures/delete/:idUser/:idPicture",async(req,res)=>{
+    const message = await Videos.delete(req.params.idUser, req.params.idPicture, fs);
     return res.status(200).json(message);
 });
 

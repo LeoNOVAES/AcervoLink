@@ -1,10 +1,26 @@
 const {Videos} = require('../models/');
 
 
-module.exports.insert = async (data,id)=>{
+module.exports.insert = async (file,data,id,fs)=>{
     data.userId = id;
-    const video = await Videos.create(data);
-    return video.dataValues;
+    const date = new Date();
+    const url = date.getTime()+"_"+file.originalFilename;
+    const path_origin = file.path;
+    let path_destiny;
+
+    console.log(data.public);
+    data.public == true ? path_destiny = "./static/videos/public/"+url+".mp4" : path_destiny = "./static/videos/private/"+url+".mp4";
+
+    fs.rename(path_origin, path_destiny,async(err)=>{
+        if(err){
+            return err;
+        }else{
+            data.url = url;
+            await Videos.create(data);
+            
+        }
+    });
+    return "Video adicionada com sucesso";
 }
 
 module.exports.getAll = async (id)=>{
