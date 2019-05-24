@@ -148,7 +148,7 @@ app.get("/videos/public/:idUser", async (req,res)=>{
     return res.status(200).json(videos);
 });
 
-app.get("/videos/public/:idUser/:idPicture",async(req,res)=>{
+app.get("/videos/public/:idUser/:idVideos",async(req,res)=>{
     const videos = await Videos.getPublicOne(req.params.idUser, req.params.idPicture);
     return res.status(200).json(videos);
 });
@@ -158,17 +158,41 @@ app.get("/videos/private/:idUser", async (req,res)=>{
     return res.status(200).json(videos);
 });
 
-app.get("/videos/private/:idUser/:idPicture",async (req,res)=>{
+app.get("/videos/private/:idUser/:idVideos",async (req,res)=>{
     const video = await Videos.getPrivateOne(req.params.idUser, req.params.idPicture);
     return res.status(200).json(video);
 });
 
-app.put("/pictures/update/:idUser/:idPicture",async(req,res)=>{
+app.get("/videos/file/private/:url", async (req,res)=>{
+    const url = req.params.url;
+    fs.readFile('./static/videos/private/'+url+'.mp4',(err,video)=>{
+        if(err){
+            res.status(400).json(err);
+            return;
+        }
+        res.writeHead(200,{'content-type':'video/mp4'});
+        res.end(video);
+    }); 
+});
+
+app.get("/videos/file/public/:url", async (req,res)=>{
+    const url = req.params.url;
+    fs.readFile('./static/videos/public/'+url+'.mp4',(err,video)=>{
+        if(err){
+            res.status(400).json(err);
+            return;
+        }
+        res.writeHead(200,{'content-type':'video/mp4'});
+        res.end(video);
+    }); 
+});
+
+app.put("/videos/update/:idUser/:idVideos",async(req,res)=>{
     const message = await Videos.update(req.params.idUser, req.params.idPicture, req.body);
     return res.status(200).json(message);
 });
 
-app.delete("/pictures/delete/:idUser/:idPicture",async(req,res)=>{
+app.delete("/videos/delete/:idUser/:idVideos",async(req,res)=>{
     const message = await Videos.delete(req.params.idUser, req.params.idPicture, fs);
     return res.status(200).json(message);
 });

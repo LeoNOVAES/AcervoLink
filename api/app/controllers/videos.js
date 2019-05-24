@@ -1,11 +1,10 @@
 const {Videos} = require('../models/');
 
-
 module.exports.insert = async (file,data,id,fs)=>{
     data.userId = id;
     const date = new Date();
-    const url = date.getTime()+"_"+file.originalFilename;
-    const path_origin = file.path;
+    const url = date.getTime()+"_"+file.video.originalFilename;
+    const path_origin = file.video.path;
     let path_destiny;
 
     console.log(data.public);
@@ -20,7 +19,7 @@ module.exports.insert = async (file,data,id,fs)=>{
             
         }
     });
-    return "Video adicionada com sucesso";
+    return "Video adicionado com sucesso";
 }
 
 module.exports.getAll = async (id)=>{
@@ -97,16 +96,32 @@ module.exports.update = async (idUser,idVideos,data)=>{
         }
     });
 
-    return "Foto alterada com sucesso";
+    return "Video alterado com sucesso";
 }
 
-module.exports.delete = async (idUser,idVideos)=>{
+module.exports.delete = async (idUser,idVideo)=>{
+    let path;
+    const video = await Videos.findOne({
+        where:{
+            userId:idUser,
+            id:idVideo
+        }
+    });
     await Videos.destroy({
         where:{
-            id:idVideos,
+            id:idVideo,
             userId:idUser
         }
     });
-    return "foto deletada com sucesso!";
+
+    video.dataValues.public == true ? path = "./static/videos/public/"+video.dataValues.url+".mp4" : path = "./static/videos/private/"+video.dataValues.url+".mp4";
+    fs.unlink(path,(err)=>{
+        if(err){
+            console.log(err);
+            return
+        }
+    });
+
+    return "Video deletado com sucesso!";
 }
 
