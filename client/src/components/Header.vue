@@ -1,4 +1,5 @@
 <template>
+<div>
     <nav class="navbar navbar-dark navbar-expand-lg bg-danger menu">
         <a class="navbar-brand"  href="#">ACERVO LK</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
@@ -17,14 +18,20 @@
             </li>
             </ul>
         </div>
-        <button class="btn btn-light" style="font-weight:bolder; margin-right:10%; padding-right:30px; padding-left:30px">LOGIN</button>
+        <Modal/>
     </nav>
+    <div>
+    </div>
+</div>    
 </template>
 
 <script>
-export default {
-
-}
+import Modal from '@/components/Modal.vue';
+ export default { 
+     components:{
+         Modal
+     }
+ }
 </script>
 
 <style>

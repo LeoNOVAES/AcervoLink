@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
 const multiParty = require('connect-multiparty');
+const jwt = require("jsonwebtoken");
 const fs = require('fs');
 
 const user = require("./app/controllers/users");
@@ -25,7 +26,17 @@ app.listen(9000, ()=>{
     console.log("rodando na 9000")
 });
 
+
 //USERS
+app.post("/user", async (req,res)=>{
+    let status;
+    let response = await user.insert(req.body);
+    console.log(response);
+    let message = response;
+    message == "Email já existe" ? status = 400 : status = 200;
+    return res.status(status).json(message);   
+});
+
 app.get("/users", async (req,res)=>{
     let users = await user.getAll();
     return res.status(200).json(users);
@@ -34,15 +45,6 @@ app.get("/users", async (req,res)=>{
 app.get("/user/:id", async (req,res)=>{
     let userId = await user.getFindById(req.params.id);
     return res.status(200).json(userId);
-});
-
-app.post("/user", async (req,res)=>{
-    let status;
-    let response = await user.insert(req.body);
-    console.log(response);
-    let message = response;
-    message == "Email já existe" ? status = 400 : status = 200;
-    return res.status(status).json(message);   
 });
 
 app.put("/user/:id", (req,res)=>{

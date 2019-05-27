@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const crypto = require('crypto');
 
 module.exports.getAll = async()=>{
     let users = await User.findAll();
@@ -16,6 +17,7 @@ module.exports.getFindById = async(id)=>{
 
 module.exports.insert = async (data)=>{
     try {
+        data.password = data.password = crypto.createHash("md5").update(data.password).digest("hex");
         const user = await User.create(data);
         return user;
 
