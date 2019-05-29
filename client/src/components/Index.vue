@@ -1,7 +1,7 @@
 <template>
     <div>
         <Header/>
-            <Banner/>
+        <Banner/>
     </div>  
 </template>
 

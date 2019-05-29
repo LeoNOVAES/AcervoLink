@@ -5,6 +5,7 @@ const multiParty = require('connect-multiparty');
 const jwt = require("jsonwebtoken");
 const fs = require('fs');
 
+const authConfig = require("./config/auth.json");
 const user = require("./app/controllers/users");
 const Pictures = require("./app/controllers/pictures");
 const Videos = require("./app/controllers/videos");
@@ -17,7 +18,7 @@ app.use(multiParty());
 app.use((req,res,next)=>{
     res.setHeader("Access-Control-Allow-Origin","*");
     res.setHeader("Access-Control-Allow-Methods","GET,POST,PUT,DELETE");
-    res.setHeader("Access-Control-Allow-Headers","content-type");
+    res.setHeader("Access-Control-Allow-Headers","*");
     res.setHeader("Access-Control-Allow-Credentials",true);  
     next();
 });
@@ -25,7 +26,6 @@ app.use((req,res,next)=>{
 app.listen(9000, ()=>{
     console.log("rodando na 9000")
 });
-
 
 //USERS
 app.post("/user", async (req,res)=>{
@@ -36,6 +36,41 @@ app.post("/user", async (req,res)=>{
     message == "Email já existe" ? status = 400 : status = 200;
     return res.status(status).json(message);   
 });
+
+app.post("/user/autentic", async (req,res)=>{
+    const data = req.body;
+    const userLog = await user.getAutentic(data);
+    if(userLog != null){
+        const token = jwt.sign({"id":userLog.id}, authConfig.secret,{
+            expiresIn:86400
+        });
+
+        res.status(200).json({'auth':true,'user':userLog, 'token':token });
+    }else{
+        res.status(403).json({'auth':false,'user':"Email Ou Senha incorretos!", 'token':'Não existe Token'})
+    }
+});
+
+
+app.use((req,res,next)=>{
+    const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers.authorization;
+    
+    if(token){
+        jwt.verify(token, authConfig.secret,(err,decoded)=>{
+            if(err){
+                console.log(err)
+                return res.status(403).json({'message':'Falha ao Autenticar Token'});
+            }else{
+                req.decoded = decoded;
+                next();
+            }
+        });
+    }else{
+        return res.status(200).json({"message":"Não existe Token"});
+    }
+
+});
+
 
 app.get("/users", async (req,res)=>{
     let users = await user.getAll();
@@ -56,6 +91,8 @@ app.delete("/user/:id", (req,res)=>{
     user.delete(req.params.id);
     return res.status(200).json("Usuario excluido com sucesso");
 });
+
+
 
 //PICTURES
 app.post("/pictures/:id", async (req,res)=>{

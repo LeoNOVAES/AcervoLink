@@ -53,18 +53,44 @@
     },
     methods:{
        checkForm(){
-            if(this.user.email && this.user.password){
-                this.erros = [];
-                return true;
-            }else if(!this.user.password || !this.user.email){
-                this.erros.push("Todos os campos devem estar preenchidos");
-                return false;
-            }
+          if(this.user.email && this.user.password){
+              this.erros = [];
+              return true;
+          }else if(!this.user.password || !this.user.email){
+              this.erros.push("Todos os campos devem estar preenchidos");
+              return false;
+          }
+            
        },
 
-       getAuth(){
+       async getAuth(){
             let valid = this.checkForm();
             if (valid == false) return;
+          
+            const req = await fetch("http://localhost:9000/user/autentic",{
+              method:"POST",
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body:JSON.stringify(this.user)
+            });
+
+            const res = await req.json();
+            
+            if(res.auth){
+              localStorage.setItem("token",res.token);
+              localStorage.setItem("id",res.user.id);
+              localStorage.setItem("nome",res.user.name)
+              window.location.reload(true);
+            }else{
+                this.$swal({
+                    title:res.user,
+                    type: 'warning',
+                    confirmButtonColor: '#E70000'
+                });
+            }
+
        }
        
     }
