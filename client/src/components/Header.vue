@@ -20,15 +20,18 @@
         </div>
         <div v-else class="collapse navbar-collapse list" id="navbarNav">
             <ul class="navbar-nav">
-            <li class="nav-item active" style='border-left:1px solid #ffffff;'>
-                <a  class="nav-link" href="#/">Home <span class="sr-only">(Página atual)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Fotos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Videos</a>
-            </li>
+                <li class="nav-item active" style='border-left:1px solid #ffffff;'>
+                    <a  class="nav-link" href="#/">Home <span class="sr-only">(Página atual)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#/fotos">Fotos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#/videos">Videos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#/forum">Forúm</a>
+                </li>
             </ul>
         </div>
         <Modal v-if="!token"/>
