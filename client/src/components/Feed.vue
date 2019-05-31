@@ -15,8 +15,22 @@
                 ></b-form-textarea>
                 <button class="btn btn-dark" @click="postFilePublic()">Publicar</button>
 			</form>
-            <img :src="images[0]"  />
-		</div>
+            <div class="feed" v-for="(image,key ) in feed.url" :key="key">
+                <div class="row">
+                <div class="col-md-3">
+                        
+                </div>
+                <div class="col-md-6 img">
+                    <div class="configdiv">
+                        <img :src="image">
+                    </div>
+                </div>
+                    <div class="col-md-3">
+                        
+                    </div>
+                </div>              
+            </div>
+        </div>
 	</div>   
 
 </template>
@@ -28,13 +42,13 @@ export default {
             descricao:'',
             file:'',
             feed:{
-                url:'',
-                descricao:''
+                descricao:[],
+                url:[]
             },
             images:[]
         }
     },
-    mounted(){
+    created(){
         this.getFeed();
     },
     methods:{
@@ -59,12 +73,17 @@ export default {
             this.$swal({
                 title:res,
                 type: 'success',
-                confirmButtonColor: '#41b882'
+                buttons:false
             });
+
+            setTimeout(function() {
+                    location.reload()
+                }, 1000);
+            return;
         },
        
        async getFeed(){
-           let req = await fetch(`http://localhost:9000/pictures/public/${localStorage.getItem("id")}`,{
+           let req = await fetch(`http://localhost:9000/pictures/public`,{
                method:"GET",
                headers:{
                    "Authorization":localStorage.getItem("token")
@@ -72,18 +91,24 @@ export default {
            });
 
            let res = await req.json();
-           this.$data.feed.descricao = res.nome;
+           console.log(res)
            
            for(let i = 0; i < res.length; i++){
-               console.log(res[i].url)
-               let reqImage = await fetch(`http://localhost:9000/pictures/image/private/${res[i].url}`,{
+               let reqImage = await fetch(`http://localhost:9000/pictures/image/public/${res[i].url}`,{
                 method:"GET",
                 headers:{
                     "Authorization":localStorage.getItem("token")
                 }
                });
-                this.images[i] = reqImage.body.getReader();
-                console.log(this.images[i])
+               reqImage.body.getReader().read().then(({done,value})=>{
+                   const blob = new Blob([new Uint8Array(value)]); 
+                   const url = window.URL.createObjectURL(blob);
+                   console.log(url)
+                   this.$data.feed.url.push(url);
+                   this.$data.feed.descricao.push(res[i].nome);
+                   console.log(this.feed)
+               })
+                
            }
 
        }
@@ -103,6 +128,15 @@ export default {
 }
 #textarea{
     margin-bottom: 10px
+}
+.img{
+    padding:40px;
+    width:70%;
+    display: block;
+    align-items: center
+}
+.img img{
+    width:100%;
 }
 
 </style>

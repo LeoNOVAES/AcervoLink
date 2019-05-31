@@ -101,6 +101,11 @@ app.post("/pictures/:id", async (req,res)=>{
     return res.status(202).json(pictures);
 });
 
+app.get("/pictures/public", async(req,res)=>{
+    const pictures = await Pictures.getAllPublic(req.params.id);
+    return res.status(200).json(pictures);
+});
+
 app.get("/pictures/:id",async (req,res)=>{
     const pictures = await Pictures.getAll(req.params.id);
     return res.status(200).json(pictures);

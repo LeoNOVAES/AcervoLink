@@ -7,10 +7,13 @@ module.exports.insert = async (data,file,id,fs)=>{
     const url = date.getTime()+"_"+file.originalFilename;
     const path_origin = file.path;
     let path_destiny;
-
-    console.log(data.public);
-    data.public == true ? path_destiny = "./static/pictures/public/"+url+".jpg" : path_destiny = "./static/pictures/private/"+url+".jpg";
-
+    
+    if(data.public){
+        path_destiny = "./static/pictures/public/"+url+".jpg"
+    }else{
+        path_destiny = "./static/pictures/private/"+url+".jpg"
+    }
+    
     fs.rename(path_origin, path_destiny,async(err)=>{
         if(err){
             return err;
@@ -23,10 +26,20 @@ module.exports.insert = async (data,file,id,fs)=>{
     return "Foto adicionada com sucesso";
 }
 
+module.exports.getAllPublic = async ()=>{
+    const pictures = await Pictures.findAll({
+        where:{
+            public:1
+        }
+    });
+    return pictures;
+}
+
 module.exports.getAll = async (id)=>{
     const pictures = await Pictures.findAll({
         where:{
-            userId:id
+            userId:id,
+            public:1
         }
     });
     return pictures;
