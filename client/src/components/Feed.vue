@@ -17,17 +17,16 @@
 			</form>
             <div class="feed" v-for="(image,key ) in feed.url" :key="key">
                 <div class="row">
-                <div class="col-md-3">
-                        
-                </div>
-                <div class="col-md-6 img">
-                    <div class="configdiv">
+                
+                <div class="col-md-12 content">
+                    <div class="img">
                         <img :src="image">
                     </div>
+                    <div class="descricao">
+                        teste
+                    </div>    
                 </div>
-                    <div class="col-md-3">
-                        
-                    </div>
+    
                 </div>              
             </div>
         </div>
@@ -130,8 +129,7 @@ export default {
     margin-bottom: 10px
 }
 .img{
-    padding:40px;
-    width:70%;
+    width:40%;
     display: block;
     align-items: center
 }
@@ -139,4 +137,15 @@ export default {
     width:100%;
 }
 
+.descricao{
+        margin-left:100px
+}
+
+.content{
+    padding:20px;
+    margin-top:20px;
+    margin-bottom:10px;
+    display: flex;
+    border:1px solid #dddddd;
+}
 </style>
