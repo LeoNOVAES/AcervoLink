@@ -15,40 +15,65 @@
                 ></b-form-textarea>
                 <button class="btn btn-dark" @click="postFilePublic()">Publicar</button>
 			</form>
-            <div class="feed" v-for="(image,key ) in feed.url" :key="key">
-                <div class="row">
-                
-                <div class="col-md-12 content">
-                    <div class="img">
-                        <img :src="image">
-                    </div>
-                    <div class="descricao">
-                        teste
-                    </div>    
-                </div>
-    
-                </div>              
+            <div v-for="(feed , key) in feed " :key="key" style="margin-top:20px">
+                <b-card  
+                no-body 
+                class="overflow-hidden" 
+                style="max-width:100%;"
+                id="my-table"
+                :items="feed"
+                :per-page="perPage"
+                :current-page="currentPage"
+                small
+                >
+                    <b-row no-gutters>
+                    <b-col md="6">
+                        <b-card-img :src="feed.url" class="rounded-0"></b-card-img>
+                    </b-col>
+                    <b-col md="6">
+                        <b-card-body :title="feed.nome">
+                        <b-card-text>
+                            This is a wider card with supporting text as a natural lead-in to additional content.
+                            This content is a little bit longer.
+                        </b-card-text>
+                        </b-card-body>
+                    </b-col>
+                    </b-row>
+                </b-card>
             </div>
         </div>
-	</div>   
+	</div> 
+      
 
 </template>
 
 <script>
+import Pagination from "@/components/Pagination.vue";
+
 export default {
+    components:{
+        Pagination
+    },
     data(){
         return{
             descricao:'',
             file:'',
-            feed:{
-                descricao:[],
-                url:[]
-            },
-            images:[]
+            feed:[],
+            images:[],
+            perPage: 3,
+            currentPage: 1,
+            items: [
+              
+            ]
         }
     },
     created(){
         this.getFeed();
+    },
+     computed: {
+      rows() {
+        return this.feed.length
+      }
     },
     methods:{
         insertFile(){
@@ -102,10 +127,10 @@ export default {
                reqImage.body.getReader().read().then(({done,value})=>{
                    const blob = new Blob([new Uint8Array(value)]); 
                    const url = window.URL.createObjectURL(blob);
-                   console.log(url)
-                   this.$data.feed.url.push(url);
-                   this.$data.feed.descricao.push(res[i].nome);
-                   console.log(this.feed)
+                   res[i].url = url; 
+                   
+                   this.$data.feed.push(res[i]);
+                   console.log(res[i])
                })
                 
            }
