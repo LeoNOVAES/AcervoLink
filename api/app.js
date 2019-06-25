@@ -126,9 +126,7 @@ app.get("/pictures/public/:idUser/:idPicture",async(req,res)=>{
 });
 
 app.get("/pictures/pagination/public/:page",async(req,res)=>{
-    const limit = req.params.page;
-    const pictures = await Pictures.getTotPublicByPage(limit);
-    console.log(pictures)
+    const pictures = await Pictures.getTotPublicByPage(req.params.page);
     return res.status(200).json(pictures);
 });
 
