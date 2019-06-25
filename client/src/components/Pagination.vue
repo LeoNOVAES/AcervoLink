@@ -1,37 +1,49 @@
 <template>
   <div class="overflow-auto">
-    <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-      aria-controls="my-table"
-    ></b-pagination>
-
-    <p class="mt-3">Current Page: {{ currentPage }}</p>
-
-    <b-table
-      id="my-table"
-      :items="items"
-      :per-page="perPage"
-      :current-page="currentPage"
-      small
-    ></b-table>
+    <div
+      v-bind="setTotPag(Math.ceil(this.object.length/this.perPag))"
+      style="margin-bottom:300px"
+    >
+      <div v-for="(page,key) in totPages" :key="key" class="pagination">
+        <button class="btn btn-light" style="box-shadow: 3px 2px #dddddd; margin:10px; font-weight:bolder" :value="page" @click="teste(page)">{{page}}</button>
+      </div>
+    </div>
+    {{currentPage}}
   </div>
 </template>
 
 <script>
   export default {
+    props:{
+      object:'',
+    },
     data() {
       return {
-        perPage: 3,
-        currentPage: 1,
-        items: this.props.object
-      }
+        currentPage:1,
+        perPag:2,
+        totPages: "",
+        pages:[]
+      }  
     },
-    computed: {
-      rows() {
-        return this.items.length
+    mounted(){
+      
+    },
+    methods:{
+      setTotPag(t){
+        this.totPages = t;
+        
+      },
+      teste(value){
+        alert(value)
+        this.currentPage = value;
       }
     }
   }
 </script>
+
+<style>
+.pagination {
+  display: inline;
+  
+}
+</style>

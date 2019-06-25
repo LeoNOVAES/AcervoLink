@@ -20,7 +20,6 @@ module.exports.insert = async (data,file,id,fs)=>{
         }else{
             data.url = url;
             await Pictures.create(data);
-            
         }
     });
     return "Foto adicionada com sucesso";
@@ -30,7 +29,27 @@ module.exports.getAllPublic = async ()=>{
     const pictures = await Pictures.findAll({
         where:{
             public:1
-        }
+        },
+        order: [
+            ['createdAt', 'DESC'],
+           
+        ],
+    });
+    return pictures;
+}
+
+module.exports.getTotPublicByPage = async (limit)=>{
+    const pictures = await Pictures.findAll({
+        where:{
+            public:1
+
+           
+        },
+        order: [
+            ['createdAt', 'DESC'],  
+        ],
+        limit:3
+        
     });
     return pictures;
 }

@@ -25,6 +25,12 @@ module.exports = {
           type:DataTypes.STRING
         },
 
+        descricao:{
+          allowNull:false,
+          type:DataTypes.TEXT
+        },
+
+
         url:{
           allowNull:false,
           type:DataTypes.STRING

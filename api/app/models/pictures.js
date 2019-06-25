@@ -2,6 +2,7 @@ module.exports = (sequelize, DataTypes)=>{
     const Pictures = sequelize.define('Pictures',{
         userId:DataTypes.INTEGER,
         nome:DataTypes.STRING,
+        descricao:DataTypes.TEXT,
         url:DataTypes.STRING,
         public:DataTypes.BOOLEAN
 

@@ -2,6 +2,7 @@ module.exports = (sequelize, DataTypes)=>{
     const Videos = sequelize.define('Videos',{
         userId:DataTypes.INTEGER,
         nome:DataTypes.STRING,
+        descricao:DataTypes.TEXT,
         url:DataTypes.STRING,
         public:DataTypes.BOOLEAN
 

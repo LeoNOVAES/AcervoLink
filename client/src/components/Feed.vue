@@ -6,7 +6,11 @@
                     <input type="file" @change="insertFile" ref="f" class="custom-file-input" id="customFile">
                     <label class="custom-file-label" for="customFile">Add Fotos/Videos (Públicos)</label>
                 </div>
+                <div class="form-group">
+                    <input type="text" v-model="titulo" class="form-control" id="titulo" placeholder="Titulo">
+                </div>
                 <b-form-textarea
+                maxlength="560"
                 id="textarea"
                 v-model="descricao"
                 placeholder="Escreva uma descrição para a foto!"
@@ -21,10 +25,6 @@
                 class="overflow-hidden" 
                 style="max-width:100%;"
                 id="my-table"
-                :items="feed"
-                :per-page="perPage"
-                :current-page="currentPage"
-                small
                 >
                     <b-row no-gutters>
                     <b-col md="6">
@@ -33,13 +33,22 @@
                     <b-col md="6">
                         <b-card-body :title="feed.nome">
                         <b-card-text>
-                            This is a wider card with supporting text as a natural lead-in to additional content.
-                            This content is a little bit longer.
+                            {{feed.descricao}}
                         </b-card-text>
                         </b-card-body>
                     </b-col>
                     </b-row>
                 </b-card>
+            </div>
+        </div>
+        <div class="overflow-auto">
+            <div
+            v-bind="setTotPag(Math.ceil(this.feed.length/this.perPag))"
+            style="margin-bottom:300px"
+            >
+            <div v-for="(page,key) in totPages" :key="key" class="pagination">
+                <button class="btn btn-light" style="box-shadow: 3px 2px #dddddd; margin:10px; font-weight:bolder" :value="page" @click="teste(page)">{{page}}</button>
+            </div>
             </div>
         </div>
 	</div> 
@@ -60,20 +69,17 @@ export default {
             file:'',
             feed:[],
             images:[],
-            perPage: 3,
-            currentPage: 1,
-            items: [
-              
-            ]
+            titulo:'',
+            currentPage:1,
+            perPag:2,
+            totPages: "",
+            pages:[],
+            feedPag:[]
         }
     },
     created(){
-        this.getFeed();
-    },
-     computed: {
-      rows() {
-        return this.feed.length
-      }
+        this.getTotFeed();
+        this.getFeedPerPag();
     },
     methods:{
         insertFile(){
@@ -81,7 +87,9 @@ export default {
         },
         async postFilePublic(){
             let form = new FormData();
-            form.append("nome",this.$data.descricao);
+            console.log(this.$data.descricao)
+            form.append("nome",this.$data.titulo);
+            form.append("descricao",this.$data.descricao);
             form.append("picture", this.$data.file);
             form.append("public", true);
 
@@ -94,11 +102,6 @@ export default {
             });
 
             let res = await req.json();
-            this.$swal({
-                title:res,
-                type: 'success',
-                buttons:false
-            });
 
             setTimeout(function() {
                     location.reload()
@@ -106,8 +109,37 @@ export default {
             return;
         },
        
-       async getFeed(){
+       async getTotFeed(){
            let req = await fetch(`http://localhost:9000/pictures/public`,{
+               method:"GET",
+               headers:{
+                   "Authorization":localStorage.getItem("token")
+               }
+           });
+
+           let res = await req.json();
+           
+           for(let i = 0; i < res.length; i++){
+               let reqImage = await fetch(`http://localhost:9000/pictures/image/public/${res[i].url}`,{
+                method:"GET",
+                headers:{
+                    "Authorization":localStorage.getItem("token")
+                }
+               });
+               reqImage.body.getReader().read().then(({done,value})=>{
+                   const blob = new Blob([new Uint8Array(value)]); 
+                   const url = window.URL.createObjectURL(blob);
+                   res[i].url = url; 
+                   
+                   this.$data.feed.push(res[i]);
+               })
+                
+           }
+
+       },
+
+       async getFeedPerPag(page){
+             let req = await fetch(`http://localhost:9000/pictures/public/pagination/${page}`,{
                method:"GET",
                headers:{
                    "Authorization":localStorage.getItem("token")
@@ -129,13 +161,23 @@ export default {
                    const url = window.URL.createObjectURL(blob);
                    res[i].url = url; 
                    
-                   this.$data.feed.push(res[i]);
+                   this.$data.feedPag.push(res[i]);
                    console.log(res[i])
                })
                 
            }
 
-       }
+            this.currentPage = page;
+       },
+        setTotPag(t){
+            this.totPages = t;
+            
+        },
+        
+        teste(value){
+            alert(value)
+           
+        }
     }
 }
 </script>
