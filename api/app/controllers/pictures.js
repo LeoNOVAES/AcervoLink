@@ -47,8 +47,8 @@ module.exports.getTotPublicByPage = async (page)=>{
         order: [
             ['createdAt', 'DESC'],  
         ],
-        offset: ((page - 1) * 2),
-        limit: 2,    
+        offset: ((page - 1) * 5),
+        limit: 5,    
         subQuery: false
 
     });

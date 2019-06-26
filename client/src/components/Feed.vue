@@ -40,20 +40,18 @@
                     </b-row>
                 </b-card>
             </div>
-        </div>
+        </div> 
         <div class="overflow-auto">
             <div
             v-bind="setTotPag(Math.ceil(this.feed.length/this.perPag))"
-            style="margin-bottom:300px"
             >
             <div v-for="(page,key) in totPages" :key="key" class="pagination">
-                <button class="btn btn-light" style="box-shadow: 3px 2px #dddddd; margin:10px; font-weight:bolder" :value="page" @click="getFeedPerPag(page)">{{page}}</button>
-            </div>
+                <button class="btn btn-primary" v-if="page == current"  style="box-shadow: 3px 2px #dddddd; margin:10px; font-weight:bolder" :value="page" @click="getFeedPerPag(page)">{{page}}</button>
+                <button class="btn btn-light" v-else  style="box-shadow: 3px 2px #dddddd; margin:10px; font-weight:bolder" :value="page" @click="getFeedPerPag(page)">{{page}}</button>
+            </div> 
             </div>
         </div>
 	</div> 
-      
-
 </template>
 
 <script>
@@ -70,10 +68,11 @@ export default {
             feed:[],
             images:[],
             titulo:'',
-            perPag:2,
+            perPag:5,
             totPages: "",
             pages:[],
-            feedPag:[]
+            feedPag:[],
+            current:''
         }
     },
     mounted(){
@@ -148,7 +147,7 @@ export default {
                });
                 
            }
-
+           this.current = page; 
        },
         setTotPag(t){
             this.totPages = t;
