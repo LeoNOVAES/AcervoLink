@@ -48,7 +48,7 @@ module.exports.getTotPublicByPage = async (limit)=>{
         order: [
             ['createdAt', 'DESC'],  
         ],
-        limit:3
+        limit: 2
         
     });
     return pictures;
