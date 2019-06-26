@@ -4,20 +4,25 @@
                 <div class="col-md-6 item">
                     <h2>Seus Conteúdos na Hora que quiser! Adicione seu Video, Link ou Foto</h2>
                     <p class="text-danger">para sua segurança é tudo criptografado, faça seu login agora mesmo e não decepcione seu Cachorro.</p>
-                    <a class="btn btn-danger" href="#/cadastro"><a style="font-weight: bolder">Cadastre-se</a></a>
+                    <Modal/>
                 </div>
-                 <div class="col-md-2 item"> 
-                    
-                </div>
+                 
                 <div class="col-md-4 item"> 
-                    teste2
+                    <Form/>
                 </div>
             </div>
     </div>
 </template>
 
 <script>
+import Form from "@/components/FormCadastro.vue"
+import Modal from '@/components/Modal.vue';
+
 export default {
+    components:{
+        Form,
+        Modal
+    }
 
 }
 </script>

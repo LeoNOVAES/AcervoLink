@@ -34,8 +34,7 @@
                 </li>
             </ul>
         </div>
-        <Modal v-if="!token"/>
-        <ModalEdit v-else />
+        <ModalEdit v-if="token"/>
     </nav>
     <div>
     </div>
@@ -43,11 +42,9 @@
 </template>
 
 <script>
-import Modal from '@/components/Modal.vue';
 import ModalEdit from '@/components/ModalEdit.vue';
  export default { 
      components:{
-         Modal,
          ModalEdit
      }, 
      data(){

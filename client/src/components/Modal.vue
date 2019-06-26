@@ -1,6 +1,6 @@
 <template>
 <div>
-    <b-button @click="show=true" class="btn btn-light" style="font-weight:bolder; margin-right:10%; padding-right:30px; padding-left:30px">LOGIN</b-button>
+    <b-button @click="show=true" class="btn btn-danger" style="font-weight:bolder; margin-right:10%; padding-right:40px; padding-left:40px; padding-top:15px; padding-bottom:15px">FAÇA O LOGIN</b-button>
     <b-modal
       v-model="show"
       title="LOGIN"

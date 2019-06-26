@@ -46,7 +46,11 @@
 </template>
 
 <script>
+import Revert from "crypto";
   export default {
+    components:{
+      Revert
+    },
     data() {
       return {
         show: false,
@@ -58,41 +62,51 @@
         }
       }
     },
-    
     mounted(){
-
+       this.getDataUser()
     },
-
     methods:{
        
-       async userUpdate(next){
+      async userUpdate(next){
 
-         localStorage.setItem("nome",this.$data.nome)
-         console.log(this.$data.user.senha)
-         let data = new FormData();
-         data.append("name",this.$data.nome);
-         data.append("password",this.$data.user.senha);
-               
+        localStorage.setItem("nome",this.$data.nome)
+        let data = new FormData();
+        data.append("name",this.$data.nome);
+        data.append("password",this.$data.user.senha);
 
-          const req = await fetch(`http://localhost:9000/user/${localStorage.getItem("id")}`,{
-            method:"PUT",
-            headers:{
-              "Authorization":localStorage.getItem("token")
-            },
-            body:data
-          });
+    
+        const req = await fetch(`http://localhost:9000/user/${localStorage.getItem("id")}`,{
+          method:"PUT",
+          headers:{
+            "Authorization":localStorage.getItem("token")
+          },
+          body:data
+        });
 
-          let res = await req.json();
-          
-          this.$swal({
-                title:res,
-                type: 'success',
-                confirmButtonColor: '#41b882'
-          })
-          return;
-       },
-       
-       logoff(){
+        let res = await req.json();
+        
+        this.$swal({
+              title:res,
+              type: 'success',
+              confirmButtonColor: '#41b882'
+        })
+        
+        return;
+      },
+      async getDataUser(){
+            
+            const req = await fetch(`http://localhost:9000/user/${localStorage.getItem("id")}`,{
+                method:"GET",
+                headers:{
+                    "Authorization":localStorage.getItem("token")
+                }
+            });
+
+            const res = await req.json();
+            
+        },
+
+      logoff(){
          localStorage.removeItem("token");
          localStorage.removeItem("nome");
          localStorage.removeItem("id");

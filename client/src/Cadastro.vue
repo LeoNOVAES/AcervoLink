@@ -53,26 +53,30 @@
             </div>        
          </div>
          <button id="btn" @click="isCadastro" class="btn btn-success">CADASTRAR</button>
-     </b-container>    
+     </b-container>
+     <Footer/>    
  </div>
  
 </template>
 
 <script>
 import Header from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue';
+
 export default {
     components:{
-        Header
+        Header,
+        Footer
     },
-     data(){
-    return {
-      user:{
-        nome:'',
-        email:'',
-        senha:'',
-        senhaConf:''
-      },
-      erros:[]
+    data(){
+        return {
+            user:{
+                nome:'',
+                email:'',
+                senha:'',
+                senhaConf:''
+        },
+            erros:[]
     }
   },
   methods:{

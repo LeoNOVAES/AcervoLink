@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-const Index = () => import("@/components/Index");
+const Index = () => import("@/Index");
 const Cadastro = () => import("@/Cadastro");
 const Home = () => import("@/Home");
 const Forum = () => import("@/Forum");

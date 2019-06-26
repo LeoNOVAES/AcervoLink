@@ -10,6 +10,9 @@
   "dependencies": {
     "bootstrap-vue": "^2.0.0-rc.20",
     "core-js": "^2.6.5",
+    "crypto": "^1.0.1",
+    "cryptr": "^4.0.2",
+    "reverse-md5": "0.0.4",
     "vue": "^2.6.10",
     "vue-bootstrap-pagination": "^2.10.3",
     "vue-router": "^3.0.6",

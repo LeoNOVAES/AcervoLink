@@ -38,18 +38,18 @@ module.exports.getAllPublic = async ()=>{
     return pictures;
 }
 
-module.exports.getTotPublicByPage = async (limit)=>{
+module.exports.getTotPublicByPage = async (page,limit)=>{
     const pictures = await Pictures.findAll({
         where:{
             public:1
-
-           
         },
         order: [
             ['createdAt', 'DESC'],  
         ],
-        limit: 2
-        
+
+        offset: ((page - 1) * limit),
+        limit: parseInt(limit),    
+        subQuery: false
     });
     return pictures;
 }

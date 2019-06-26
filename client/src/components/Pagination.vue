@@ -1,41 +1,33 @@
 <template>
   <div class="overflow-auto">
     <div
-      v-bind="setTotPag(Math.ceil(this.object.length/this.perPag))"
-      style="margin-bottom:300px"
+    v-bind="setTotPag(Math.ceil(totFeed/limit))"
+    style="margin-bottom:300px"
     >
-      <div v-for="(page,key) in totPages" :key="key" class="pagination">
-        <button class="btn btn-light" style="box-shadow: 3px 2px #dddddd; margin:10px; font-weight:bolder" :value="page" @click="teste(page)">{{page}}</button>
-      </div>
+    <div v-for="(page,key) in totPages" :key="key" class="pagination">
+        <button class="btn btn-primary" v-if="page == current"  style="box-shadow: 3px 2px #dddddd; margin:10px; font-weight:bolder" :value="page" @click="handlerClick(page)">{{page}}</button>
+        <button class="btn btn-light" v-else  style="box-shadow: 3px 2px #dddddd; margin:10px; font-weight:bolder" :value="page" @click="handlerClick(page)">{{page}}</button>
     </div>
-    {{currentPage}}
+    </div>
   </div>
 </template>
 
 <script>
   export default {
     props:{
-      object:'',
+      totFeed:'',
+      handlerClick:"",
+      limit:"",
+      current:""
     },
     data() {
-      return {
-        currentPage:1,
-        perPag:2,
-        totPages: "",
-        pages:[]
-      }  
-    },
-    mounted(){
-      
+       return{
+          totPages: ""
+        }
     },
     methods:{
       setTotPag(t){
         this.totPages = t;
-        
-      },
-      teste(value){
-        alert(value)
-        this.currentPage = value;
       }
     }
   }
@@ -44,6 +36,5 @@
 <style>
 .pagination {
   display: inline;
-  
 }
 </style>
