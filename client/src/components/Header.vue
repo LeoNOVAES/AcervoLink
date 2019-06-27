@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="header">
     <nav class="navbar navbar-dark navbar-expand-lg bg-danger menu">
         <a class="navbar-brand"  href="#">ACERVO LK</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
@@ -63,5 +63,9 @@ import ModalEdit from '@/components/ModalEdit.vue';
         margin-left:10%;
         font-weight: bolder;
         font-size: 13pt
+    }
+
+    .header{
+        margin-bottom: 5%
     }
 </style>

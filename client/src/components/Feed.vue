@@ -144,9 +144,7 @@ export default {
 </script>
 
 <style>
-.form{
-    margin-top:50px
-}
+
 .post_area{
     padding:10px
 }

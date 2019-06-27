@@ -42,6 +42,28 @@ export default {
         }
     },
     methods:{
+       async getAuth(user){
+           console.log("aqui no auth")
+            const req = await fetch("http://localhost:9000/user/autentic",{
+              method:"POST",
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body:JSON.stringify(user)
+            });
+
+            const res = await req.json();
+            console.log(res)
+            if(res.auth){
+              localStorage.setItem("token",res.token);
+              localStorage.setItem("id",res.user.id);
+              localStorage.setItem("nome",res.user.name)
+              window.location.reload(true);
+            }else{
+                console.log("error")
+            }
+       },  
       async isCadastro(e){
         if(this.$data.user.nome && this.$data.user.email  && this.$data.user.senha && this.$data.user.senhaConf){
             if(this.$data.user.senha.length < 6){
@@ -83,7 +105,6 @@ export default {
             })
 
             const res = await response.json();
-            console.log(res.status);
             if(res == "Email já existe"){
                 this.$swal({
                     title: res,
@@ -99,17 +120,16 @@ export default {
                     type: 'success',
                     confirmButtonColor: '#41b882',
                     confirmButtonText:"OK"
-                }).then(async()=>{
+                }).then(async ()=>{
                     let user = {
                         email:this.$data.user.email,
                         password:this.$data.user.senha
                     }
-                    await this.getAuth(user)
+                    this.getAuth(user)
                 })
                 
                 return;
             }
-
         }
 
             if(!this.$data.user.nome || !this.$data.user.email  || !this.$data.user.senha  || !this.$data.user.senhaConf ){
@@ -124,34 +144,7 @@ export default {
                 })
             }
         }
-  },
-  async getAuth(user){
-
-            const req = await fetch("http://localhost:9000/user/autentic",{
-              method:"POST",
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              body:JSON.stringify(user)
-            });
-
-            const res = await req.json();
-            
-            if(res.auth){
-              localStorage.setItem("token",res.token);
-              localStorage.setItem("id",res.user.id);
-              localStorage.setItem("nome",res.user.name)
-              window.location.reload(true);
-            }else{
-                this.$swal({
-                    title:res.user,
-                    type: 'warning',
-                    confirmButtonColor: '#E70000'
-                });
-            }
-
-       }
+  }
 }
 </script>
 

@@ -2,7 +2,6 @@
   <div class="overflow-auto">
     <div
     v-bind="setTotPag(Math.ceil(totFeed/limit))"
-    style="margin-bottom:300px"
     >
     <div v-for="(page,key) in totPages" :key="key" class="pagination">
         <button class="btn btn-primary" v-if="page == current"  style="box-shadow: 3px 2px #dddddd; margin:10px; font-weight:bolder" :value="page" @click="handlerClick(page)">{{page}}</button>

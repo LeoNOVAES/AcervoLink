@@ -69,7 +69,10 @@ module.exports.getById = async (idPicture, idUser)=>{
         where:{
             id:idPicture,
             userId:idUser
-        }
+        },
+        order: [
+            ['createdAt', 'DESC'],  
+        ]
     });
     return picture;
 }
@@ -101,7 +104,26 @@ module.exports.getPrivateByUser = async (id)=>{
         where:{
             userId:id,
             public:0
-        }
+        },
+        order: [
+            ['createdAt', 'DESC'],  
+        ]
+    });
+    return pictures;
+}
+
+module.exports.getPrivatePageByUser = async(idUser, page, limit)=>{
+    const pictures = await Pictures.findAll({
+        where:{
+            userId:idUser,
+            public:0
+        },
+        order: [
+            ['createdAt', 'DESC'],  
+        ],
+        offset: ((page - 1) * limit),
+        limit: parseInt(limit),    
+        subQuery: false
     });
     return pictures;
 }

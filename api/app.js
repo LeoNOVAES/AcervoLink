@@ -135,6 +135,11 @@ app.get("/pictures/private/:idUser", async (req,res)=>{
     return res.status(200).json(pictures);
 });
 
+app.get("/pictures/private/:idUser/:page/:limit", async(req,res)=>{
+    const pictures = await Pictures.getPrivatePageByUser(req.params.idUser, req.params.page, req.params.limit);
+    return res.status(200).json(pictures);    
+});
+
 app.get("/pictures/private/:idUser/:idPicture",async (req,res)=>{
     const picture = await Pictures.getPrivateOne(req.params.idUser, req.params.idPicture);
     return res.status(200).json(picture);
