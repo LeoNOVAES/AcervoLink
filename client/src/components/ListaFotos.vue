@@ -34,9 +34,9 @@
                 </thead>
                 <tbody>
                     <tr v-for="(list,key) in lists" :key="key">
-                        <td><Foto :url="list.url" :descricao="list.descricao" /></td>
+                        <td><Foto :url="list.url" :descricao="list.descricao" :titulo="list.nome" /></td>
                         <td>{{ list.nome }}</td>
-                        <td ><Modal/><b-button variant="danger" @click="deletePicture(list.id)" style="color:#ffffff; margin-top:10px">Delete</b-button></td>
+                        <td ><Modal :idPic="list.id"  /><b-button variant="danger" @click="deletePicture(list.id)" style="color:#ffffff; margin-top:10px">Delete</b-button></td>
                     </tr>
                 </tbody>
             </table>
@@ -83,7 +83,7 @@ export default {
             form.append("nome",this.$data.titulo);
             form.append("descricao",this.$data.descricao);
             form.append("picture", this.$data.file);
-            form.append("public", false);
+            form.append("public", 0);
 
             let req = await fetch(`http://localhost:9000/pictures/${localStorage.getItem("id")}`,{
                 method:"POST",
@@ -132,7 +132,7 @@ export default {
            let res = await req.json();
            
            for(let i = 0; i < res.length; i++){
-               let reqImage = await fetch(`http://localhost:9000/pictures/image/public/${res[i].url}`,{
+               let reqImage = await fetch(`http://localhost:9000/pictures/image/private/${res[i].url}`,{
                 method:"GET",
                 headers:{
                     "Authorization":localStorage.getItem("token")

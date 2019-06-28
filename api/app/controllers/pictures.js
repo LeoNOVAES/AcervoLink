@@ -1,25 +1,25 @@
 const {Pictures} = require('../models/');
 
 
-module.exports.insert = async (data,file,id,fs)=>{
+module.exports.insert = (data,file,id,fs)=>{
     data.userId = id;
     const date = new Date();
     const url = date.getTime()+"_"+file.originalFilename;
     const path_origin = file.path;
-    let path_destiny;
+    let path_destiny = "";
     
-    if(data.public){
-        path_destiny = "./static/pictures/public/"+url+".jpg"
-    }else{
+    if(data.public != 1){
         path_destiny = "./static/pictures/private/"+url+".jpg"
+    }else{
+        path_destiny = "./static/pictures/public/"+url+".jpg"
     }
     
-    fs.rename(path_origin, path_destiny,async(err)=>{
+    fs.rename(path_origin, path_destiny,(err)=>{
         if(err){
             return err;
         }else{
             data.url = url;
-            await Pictures.create(data);
+            Pictures.create(data);
         }
     });
     return "Foto adicionada com sucesso";
@@ -143,6 +143,7 @@ module.exports.getPrivateOne = async (idUser,idPicture)=>{
 module.exports.update = async (idUser,idPicture,data)=>{
     await Pictures.update({
         nome:data.nome,
+        descricao:data.descricao,
         public:data.public
     },{
         where:{
@@ -151,7 +152,7 @@ module.exports.update = async (idUser,idPicture,data)=>{
         }
     });
 
-    return "Foto alterada com sucesso";
+    return "Dados da Foto alterados com sucesso";
 }
 
 module.exports.delete = async (idUser,idPicture,fs)=>{

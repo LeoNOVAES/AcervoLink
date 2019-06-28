@@ -95,8 +95,8 @@ app.delete("/user/:id", (req,res)=>{
 
 
 //PICTURES
-app.post("/pictures/:id", async (req,res)=>{
-    const pictures = await Pictures.insert(req.body,req.files.picture, req.params.id,fs);
+app.post("/pictures/:id", (req,res)=>{
+    const pictures = Pictures.insert(req.body,req.files.picture, req.params.id,fs);
     return res.status(202).json(pictures);
 });
 
@@ -170,6 +170,7 @@ app.get("/pictures/image/public/:url", async (req,res)=>{
 });
 
 app.put("/pictures/update/:idUser/:idPicture",async(req,res)=>{
+    console.log(req.body)
     const message = await Pictures.update(req.params.idUser, req.params.idPicture, req.body);
     return res.status(200).json(message);
 });

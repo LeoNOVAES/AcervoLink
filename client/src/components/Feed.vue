@@ -78,7 +78,7 @@ export default {
             form.append("nome",this.$data.titulo);
             form.append("descricao",this.$data.descricao);
             form.append("picture", this.$data.file);
-            form.append("public", true);
+            form.append("public", 1);
 
             let req = await fetch(`http://localhost:9000/pictures/${localStorage.getItem("id")}`,{
                 method:"POST",
