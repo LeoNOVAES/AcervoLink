@@ -1,6 +1,6 @@
 <template>
     <div>
-     <Header/>
+     <Header  style="margin-bottom: 5%" />
      <div class="container">
          <div class="row">
              <div class="col-md-12">    

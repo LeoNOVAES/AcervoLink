@@ -69,6 +69,11 @@ import Revert from "crypto";
        
       async userUpdate(next){
 
+        if(this.$data.nome.length == 0 || this.$data.user.senha.length == 0){
+            this.$data.erro = true;
+            return;
+        }
+
         localStorage.setItem("nome",this.$data.nome)
         let data = new FormData();
         data.append("name",this.$data.nome);

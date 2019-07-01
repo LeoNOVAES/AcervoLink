@@ -93,7 +93,6 @@ app.delete("/user/:id", (req,res)=>{
 });
 
 
-
 //PICTURES
 app.post("/pictures/:id", (req,res)=>{
     const pictures = Pictures.insert(req.body,req.files.picture, req.params.id,fs);

@@ -2,7 +2,7 @@
 <div>
     <a href="#" @click="show=true" ><img :src="url" height="150px" width="250px"/></a>
     <b-modal :title="titulo" v-model="show" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-        {{descricao}}
+        <div class="desc" >{{descricao}}</div>
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <img :src="url" height="500px" width="100%"/>
@@ -36,4 +36,8 @@ export default {
 </script>
 
 <style>
+.desc {
+    width: 30em; 
+    word-wrap: break-word;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-     <Header/>
+     <Header style="margin-bottom: 5%"/>
      <div class="container">
          <List/>
      </div>
@@ -31,6 +31,7 @@ export default {
 #textarea{
     margin-bottom: 10px
 }
+
 
 
 </style>

@@ -13,6 +13,7 @@
     >
       <b-container fluid>
             <div  class="bg-danger text-light" style="margin-top:10px; margin-bottom:10px; border-radius:10px">
+              <p v-if="erro">Todos os campos devem estar preenchidos</p>
             </div>
            <form>  
                <div class="row">
@@ -44,7 +45,7 @@ export default {
     data(){
         return{
             show: false,
-            erros:[],
+            erro:false,
             picture:{
               nome:'',
               descricao:'',
@@ -54,7 +55,12 @@ export default {
     },
     methods:{
       async update(id){
-        console.log(this.$data.picture)
+        
+        if(this.$data.picture.nome.length == 0 || this.$data.picture.descricao.length == 0){
+            this.$data.erro = true;
+            return;
+        }
+
         const req = await fetch(`http://localhost:9000/pictures/update/${localStorage.getItem("id")}/${id}`,{
           method:"PUT",
           headers:{
@@ -65,7 +71,7 @@ export default {
           body:JSON.stringify(this.$data.picture)
         });
 
-          setTimeout(function() {
+          setTimeout(()=>{
                     location.reload()
           }, 1000);
       }

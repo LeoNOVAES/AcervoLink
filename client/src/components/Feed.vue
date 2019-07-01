@@ -41,7 +41,7 @@
                 </b-card>
             </div>
         </div> 
-        <Pagination :totFeed="totFeed" :handlerClick="(p)=>getFeedPerPag(p)" :current="current" :limit="perPag" />
+        <Pagination :totFeed="totFeed" :handlerClick="(p)=>getFeedPerPag(p)" :current="current" :limit="perPag" style="margin-bottom:100px" />
 	</div> 
 </template>
 

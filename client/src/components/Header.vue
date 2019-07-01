@@ -66,6 +66,5 @@ import ModalEdit from '@/components/ModalEdit.vue';
     }
 
     .header{
-        margin-bottom: 5%
     }
 </style>
