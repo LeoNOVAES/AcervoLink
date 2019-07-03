@@ -5,21 +5,21 @@
               <div class="card bg-dark cardListEntrar" style="padding:10px">
                 <div class="card-body" style="">
                     <h5 class="card-title" style="text-align:center; color:#2cc185; font-size:20pt; margin-bottom:50px" >Minhas Fotos</h5>
-                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt; margin-bottom:80px">{{ fotosqtd }}<span style="color:#dddddd; text-align:center;font-size:12pt"> Existentes</span></p>
+                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt;">{{ fotosqtd }}</p><p style="color:#dddddd; margin-bottom:80px; text-align:center;font-size:12pt">Fotos Existentes</p>
                     <a href="#/fotos" class="btn"  >ENTRAR</a>
                 </div>
             </div>
             <div class="card bg-dark cardListEntrar" style="padding:10px">
                 <div class="card-body" style="">
                     <h5 class="card-title" style="text-align:center; color:#2cc185; font-size:20pt; margin-bottom:50px" >Videos</h5>
-                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt; margin-bottom:80px">{{ videosqtd }}<span style="color:#dddddd; text-align:center;font-size:12pt"> Existentes</span></p>
+                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt">{{ videosqtd }}</p><p style="color:#dddddd; margin-bottom:80px; text-align:center;font-size:12pt">Videos Existentes</p>
                     <a href="#/videos" class="btn"  >ENTRAR</a>
                 </div>
             </div>
             <div class="card bg-dark cardListEntrar" style="padding:10px">
                 <div class="card-body" >
                     <h5 class="card-title" style="text-align:center; color:#2cc185; font-size:20pt; margin-bottom:50px" >Forúm</h5>
-                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt; margin-bottom:80px">{{ forumqtd }}<span style="color:#dddddd; text-align:center;font-size:12pt"> Existentes</span></p>
+                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt;">{{ forumqtd }}</p><p style="color:#dddddd; margin-bottom:80px; text-align:center;font-size:12pt">Feeds Existentes</p>
                     <a href="#/forum" class="btn"  >ENTRAR</a>
                 </div>
             </div>
@@ -77,6 +77,7 @@ export default {
         align-content: center;
         align-items: center
     }
+
     .cardListEntrar a{
         border:1px solid #2cc185; 
         color:#2cc185;
