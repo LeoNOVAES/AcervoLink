@@ -1,26 +1,26 @@
 <template>
 <div>
-    <div class="mt-3">
-        <b-card-group  deck>
-            <div class="card bg-dark cardListEntrar" style="padding:10px">
+    <div class="mt-3" >
+        <b-card-group  deck >
+              <div class="card bg-dark cardListEntrar" style="padding:10px">
                 <div class="card-body" style="">
-                    <h5 class="card-title" style="text-align:center; color:#2cc185; font-size:20pt" >Fotos</h5>
-                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt">8 <span style="color:#dddddd; text-align:center;font-size:12pt">Existentes</span></p>
-                    <a href="#" class="btn"  >ENTRAR</a>
+                    <h5 class="card-title" style="text-align:center; color:#2cc185; font-size:20pt; margin-bottom:50px" >Minhas Fotos</h5>
+                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt; margin-bottom:80px">{{ fotosqtd }}<span style="color:#dddddd; text-align:center;font-size:12pt"> Existentes</span></p>
+                    <a href="#/fotos" class="btn"  >ENTRAR</a>
                 </div>
             </div>
             <div class="card bg-dark cardListEntrar" style="padding:10px">
                 <div class="card-body" style="">
-                    <h5 class="card-title" style="text-align:center; color:#2cc185; font-size:20pt" >Videos</h5>
-                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt">8 <span style="color:#dddddd; text-align:center;font-size:12pt">Existentes</span></p>
-                    <a href="#" class="btn"  >ENTRAR</a>
+                    <h5 class="card-title" style="text-align:center; color:#2cc185; font-size:20pt; margin-bottom:50px" >Videos</h5>
+                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt; margin-bottom:80px">{{ videosqtd }}<span style="color:#dddddd; text-align:center;font-size:12pt"> Existentes</span></p>
+                    <a href="#/videos" class="btn"  >ENTRAR</a>
                 </div>
             </div>
             <div class="card bg-dark cardListEntrar" style="padding:10px">
-                <div class="card-body" style="">
-                    <h5 class="card-title" style="text-align:center; color:#2cc185; font-size:20pt" >Forúm</h5>
-                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt">8 <span style="color:#dddddd; text-align:center;font-size:12pt">Existentes</span></p>
-                    <a href="#" class="btn"  >ENTRAR</a>
+                <div class="card-body" >
+                    <h5 class="card-title" style="text-align:center; color:#2cc185; font-size:20pt; margin-bottom:50px" >Forúm</h5>
+                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt; margin-bottom:80px">{{ forumqtd }}<span style="color:#dddddd; text-align:center;font-size:12pt"> Existentes</span></p>
+                    <a href="#/forum" class="btn"  >ENTRAR</a>
                 </div>
             </div>
         </b-card-group>
@@ -30,19 +30,57 @@
 
 <script>
 export default {
+    data(){
+        return {
+            fotosqtd:0,
+            forumqtd:0,
+            videosqtd:0    
+        }
+    },
+    mounted(){
+        this.getQtdFotos();
+        this.getQtdForum();
+    },
+    methods:{
+        async getQtdFotos(){
+            let req = await fetch(`http://localhost:9000/pictures/private/${localStorage.getItem("id")}`,{
+                method:"GET",
+                headers:{
+                    "Authorization":localStorage.getItem("token")
+                }
+            });
+            const res = await req.json();
+            this.$data.fotosqtd = res.length;
 
+        },
+
+        async getQtdForum(){
+            let req = await fetch(`http://localhost:9000/pictures/public`,{
+               method:"GET",
+               headers:{
+                   "Authorization":localStorage.getItem("token")
+               }
+           });
+
+           let res = await req.json();
+           this.$data.forumqtd = res.length;
+        }
+    }
 }
 </script>
 
 <style>
-    .cardListEntrar a{
+    .cardListEntrar {
+        margin-top:10%;
         display:flex;
         flex-direction: row;
-        justify-content: center;
-        align-items: center;
+        align-content: center;
+        align-items: center
+    }
+    .cardListEntrar a{
         border:1px solid #2cc185; 
         color:#2cc185;
-        margin-top:20%
+        width:150px
     }
 
     .cardListEntrar a:hover{
