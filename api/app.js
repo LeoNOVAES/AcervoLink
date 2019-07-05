@@ -255,6 +255,7 @@ app.delete("/videos/delete/:idUser/:idVideos",async(req,res)=>{
 
 //Links
 app.post("/links/create/:idUser", async(req,res)=>{
+    console.log(req)
     const message = await Links.insert(req.body, req.params.idUser);
     return res.status(200).json(message);
 });

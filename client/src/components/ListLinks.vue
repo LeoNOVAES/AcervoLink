@@ -1,18 +1,13 @@
 <template>
     <b-card bg-variant="light" text-variant="dark">
         <b-card-text>
-            <form enctype="multipart/form-data">
+            <form>
                 <div class="form-group">
-                    <input type="text"  class="form-control" v-model="titulo" id="titulo" placeholder="Titulo">
+                    <input type="text"  class="form-control" v-model="titulo" placeholder="Titulo">
                 </div>
-                <b-form-textarea
-                    maxlength="200"
-                    id="textarea"
-                    placeholder="Escreva uma descrição para a foto! (OPCIONAL)"
-                    rows="3"
-                    v-model="descricao"
-                    max-rows="6"
-                ></b-form-textarea>
+                <div class="form-group">
+                    <input type="text"  class="form-control" v-model="link"  placeholder="Link">
+                </div>   
                 <button class="btn btn-success" @click="create" >Adicionar</button>
             </form>
         </b-card-text>
@@ -20,19 +15,41 @@
 </template>
 
 <script>
+import { stringify } from 'querystring';
 export default {
     data(){
         return{
-            titulo:'',
-            descricao:''
+            link:'',
+            titulo:''
         }
     },
     mounted(){
         this.getAll();
     },
     methods:{
-        create(){
-            
+        async create(){
+            const data = {
+                link:this.$data.link,
+                descricao:this.$data.titulo
+            }
+            console.log(data)
+            const req = await fetch(`http://localhost:9000/links/create/${localStorage.getItem('id')}`,{
+                method:'POST',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization':localStorage.getItem('token')
+                },
+                body:JSON.stringify(data)
+            });
+
+            const res = await req.json();
+
+            this.$swal({
+                title:res,
+                type: 'success'
+            })
+
         },
         async getAll(){
             const req = await fetch(`http://localhost:9000/links/${localStorage.getItem('id')}`,{
