@@ -23,13 +23,16 @@
                 <li class="nav-item active" style='border-left:1px solid #ffffff;'>
                     <a  class="nav-link" href="#/">Home <span class="sr-only">(Página atual)</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="#/fotos">Fotos</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="#/videos">Videos</a>
                 </li>
-                <li class="nav-item">
+                 <li class="nav-item active">
+                    <a class="nav-link" href="#/links">Links</a>
+                </li>
+                <li class="nav-item active">
                     <a class="nav-link" href="#/forum">Forúm</a>
                 </li>
             </ul>

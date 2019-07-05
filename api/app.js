@@ -9,6 +9,7 @@ const authConfig = require("./config/auth.json");
 const user = require("./app/controllers/users");
 const Pictures = require("./app/controllers/pictures");
 const Videos = require("./app/controllers/videos");
+const Links = require("./app/controllers/links");
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -22,6 +23,7 @@ app.use((req,res,next)=>{
     res.setHeader("Access-Control-Allow-Credentials",true);  
     next();
 });
+
 
 app.listen(9000, ()=>{
     console.log("rodando na 9000")
@@ -251,8 +253,16 @@ app.delete("/videos/delete/:idUser/:idVideos",async(req,res)=>{
 });
 
 
+//Links
+app.post("/links/create/:idUser", async(req,res)=>{
+    const message = await Links.insert(req.body, req.params.idUser);
+    return res.status(200).json(message);
+});
 
-
+app.get("/links/:userId", async (req,res)=>{
+    const links = await Links.getAll(req.params.userId);
+    return res.status(200).json(links);
+});
 
 
 

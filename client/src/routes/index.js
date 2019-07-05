@@ -7,7 +7,7 @@ const Home = () => import("@/Home");
 const Forum = () => import("@/Forum");
 const Fotos = () => import("@/Fotos");
 const Videos = () => import("@/Videos");
-const Teste = () => import("@/Teste");
+const Links = () => import("@/Links");
 
 Vue.use(Router);
 let t = localStorage.getItem("token");
@@ -55,6 +55,15 @@ let router = new Router({
             },
             component:Fotos
         },
+        {
+            path:"/links",
+            name:"Links",
+            beforeEnter:(to,from,next)=>{
+                if(!t) next('/')
+                else next(true);
+            },
+            component:Links
+        }
     ]
 });
 

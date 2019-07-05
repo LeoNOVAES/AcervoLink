@@ -34,7 +34,7 @@ export default {
     methods:{
         insertFile(){
             const size =  this.$refs.f.files[0].size;
-            if(size > 10048576){
+            if(size > 10048576){//10 mb
                 this.$swal({
                     title:"Arquivo de no maximo 10mb",
                     type: 'warning',
