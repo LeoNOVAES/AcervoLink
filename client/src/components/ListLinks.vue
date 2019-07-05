@@ -1,4 +1,5 @@
 <template>
+<div>
     <b-card bg-variant="light" text-variant="dark">
         <b-card-text>
             <form>
@@ -11,7 +12,26 @@
                 <button class="btn btn-success" @click="create" >Adicionar</button>
             </form>
         </b-card-text>
-    </b-card>        
+    </b-card>
+    <table class="table table-striped" style="margin-top:5%">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">link</th>
+            <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(link,key) in links" :key="key">
+                <th scope="row">{{link.id}}</th>
+                <td>{{link.descricao}}</td>
+                <td>{{ link.link }}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>            
 </template>
 
 <script>
@@ -20,7 +40,8 @@ export default {
     data(){
         return{
             link:'',
-            titulo:''
+            titulo:'',
+            links:[]
         }
     },
     mounted(){
@@ -60,7 +81,7 @@ export default {
             });
 
             const res = await req.json();
-            console.log(res);
+            this.$data.links = res;
         }
     }
 }
