@@ -257,14 +257,22 @@ app.delete("/videos/delete/:idUser/:idVideos",async(req,res)=>{
 app.post("/links/create/:idUser", async(req,res)=>{
     console.log(req)
     const message = await Links.insert(req.body, req.params.idUser);
-    return res.status(200).json(message);
+    return res.status(202).json(message);
 });
 
-app.get("/links/:userId", async (req,res)=>{
-    const links = await Links.getAll(req.params.userId);
+app.get("/links/:userId/:page/:limit", async (req,res)=>{
+    const links = await Links.getAll(req.params);
     return res.status(200).json(links);
 });
 
+app.get("/links/total/:userId/", async (req,res)=>{
+    const links = await Links.getAllTot(req.params);
+    return res.status(200).json(links);
+});
 
+app.delete("/links/delete/:idUser/:id", async(req,res)=>{
+    const message = await Links.delete(req.params);
+    return res.status(200).json(message);
+});
 
 

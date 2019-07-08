@@ -26,7 +26,7 @@
             <div class="card bg-dark cardListEntrar" style="padding:10px">
                 <div class="card-body" >
                     <h5 class="card-title" style="text-align:center; color:#2cc185; font-size:20pt; margin-bottom:50px" >Links</h5>
-                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt;">{{ forumqtd }}</p><p style="color:#dddddd; margin-bottom:80px; text-align:center;font-size:12pt">Links Existentes</p>
+                    <p class="card-text" style="color:#2cc185; text-align:center;font-size:50pt;">{{ linksqtd }}</p><p style="color:#dddddd; margin-bottom:80px; text-align:center;font-size:12pt">Links Existentes</p>
                     <a href="#/links" class="btn"  >ENTRAR</a>
                 </div>
             </div>
@@ -41,12 +41,14 @@ export default {
         return {
             fotosqtd:0,
             forumqtd:0,
-            videosqtd:0    
+            videosqtd:0,
+            linksqtd:0
         }
     },
     mounted(){
         this.getQtdFotos();
         this.getQtdForum();
+        this.getQtdLinks();
     },
     methods:{
         async getQtdFotos(){
@@ -71,6 +73,19 @@ export default {
 
            let res = await req.json();
            this.$data.forumqtd = res.length;
+        },
+
+        async getQtdLinks(){
+            let req = await fetch(`http://localhost:9000/links/${localStorage.getItem('id')}`,{
+                headers:{
+                   method:'GET',
+                   'Authorization':localStorage.getItem('token')
+               } 
+            });
+
+            const res = await req.json();
+            this.$data.linksqtd = res.length;
+
         }
     }
 }

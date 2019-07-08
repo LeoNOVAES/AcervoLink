@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="margin-bottom:10%" >
     <b-card bg-variant="light" text-variant="dark">
         <b-card-text>
             <form>
@@ -16,7 +16,7 @@
     <table class="table table-striped" style="margin-top:5%">
         <thead>
             <tr>
-            <th scope="col">#</th>
+            <th scope="col">Criado</th>
             <th scope="col">Titulo</th>
             <th scope="col">link</th>
             <th scope="col">Ações</th>
@@ -24,27 +24,40 @@
         </thead>
         <tbody>
             <tr v-for="(link,key) in links" :key="key">
-                <th scope="row">{{link.id}}</th>
+                <th scope="row">{{dataFormat(link.createdAt)}}</th>
                 <td>{{link.descricao}}</td>
-                <td>{{ link.link }}</td>
-                <td></td>
+                <td><a :href="'http://'+link.link" target="blank">{{ link.link }}</a></td>
+                <td><button style="margin-right:20px" class="btn btn-warning" >Editar</button><button class="btn btn-danger" @click="deleteLink(link.id)">Excluir </button></td>
             </tr>
         </tbody>
     </table>
+    <div>
+        <Pagination :totFeed="totPages" :handlerClick="(p)=>getAll(p)" :current="current" :limit="perPag" />
+    </div>    
 </div>            
 </template>
 
 <script>
 import { stringify } from 'querystring';
+import Pagination from "@/components/Pagination.vue";
+
+
 export default {
+    components:{
+        Pagination
+    },
     data(){
         return{
             link:'',
             titulo:'',
-            links:[]
+            links:[],
+            perPag:10,
+            totPages: "",
+            current:''
         }
     },
     mounted(){
+        this.getTotAll();
         this.getAll();
     },
     methods:{
@@ -66,23 +79,63 @@ export default {
 
             const res = await req.json();
 
-            this.$swal({
-                title:res,
-                type: 'success'
-            })
+            setTimeout(function() {
+                    location.reload()
+            }, 2000);
+            return;
 
         },
-        async getAll(){
-            const req = await fetch(`http://localhost:9000/links/${localStorage.getItem('id')}`,{
+
+         async getTotAll(){
+             
+            const req = await fetch(`http://localhost:9000/links/total/${localStorage.getItem('id')}`,{
                headers:{
-                   method:'GET',
+                   'Authorization':localStorage.getItem('token')
+               } 
+            });
+            
+            const res = await req.json();
+            this.$data.totPages = res.length;
+        },
+
+        async getAll(p){
+
+            let page;
+            p != null ? page = p : page = 1;
+
+            const req = await fetch(`http://localhost:9000/links/${localStorage.getItem('id')}/${page}/${this.perPag}`,{
+               headers:{
                    'Authorization':localStorage.getItem('token')
                } 
             });
 
             const res = await req.json();
+            this.$data.current = page;
             this.$data.links = res;
+        },
+
+        async deleteLink(id){
+            const req = await fetch(`http://localhost:9000/links/delete/${localStorage.getItem('id')}/${id}`,{
+                method:'DELETE',
+                headers:{
+                   'Authorization':localStorage.getItem('token')
+               } 
+            });
+
+            const res = await req.json();
+            
+            setTimeout(function() {
+                    location.reload()
+            }, 2000);
+            return; 
+        },
+
+        dataFormat(data){
+
+            const date =  new Date(data).toLocaleDateString();
+            return date;
         }
+
     }
 }
 </script>
